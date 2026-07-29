@@ -1,0 +1,15 @@
+# Credenciales y variables de entorno
+.env
+.env.local
+.env*.local
+
+# Dependencias
+node_modules
+
+# Build de Next.js
+.next
+out
+
+# Sistema
+.DS_Store
+*.log

@@ -1,0 +1,151 @@
+// ─────────────────────────────────────────────────────────────
+// CATÁLOGO — Navajas Javier Calleros (10 modelos)
+//
+// REVISA ANTES DE PUBLICAR:
+//  • precio: en CENTAVOS.
+//  • medida: los tamaños son de RELLENO. Pon las medidas reales.
+//  • imagen: apuntan a /public/fotos/navaja-<slug>.jpg (los nombres reales
+//    de tus archivos). Ajusta la línea "imagen" si renombras algo.
+//  • patentado: true marca la Cobra como pieza destacada y aparte.
+// ─────────────────────────────────────────────────────────────
+
+export type Producto = {
+  slug: string;
+  nombre: string;
+  linea: string;
+  precio: number;       // en centavos MXN
+  medida: string;
+  material: string;
+  descripcion: string;
+  imagen?: string;
+  patentado?: boolean;  // pieza destacada / exclusiva
+  tiempoProduccion: string;
+};
+
+const M35 = "Acero M35, forjado y afilado a mano";
+const S705 = "Acero S705, forjado y afilado a mano";
+const TIEMPO_PRODUCCION =
+  "Fabricación artesanal por pedido. Tu navaja estará lista en 3 a 5 días hábiles antes del envío.";
+
+// Medida (líneas) que el cliente elige al comprar — obligatoria, mismo precio
+// para las 5 opciones. Se usa en el selector de cada modelo.
+export const MEDIDAS_DISPONIBLES = ["1 línea", "2 líneas", "3 líneas", "4 líneas", "5 líneas"] as const;
+export type MedidaSeleccionable = (typeof MEDIDAS_DISPONIBLES)[number];
+
+export const productos: Producto[] = [
+  {
+    slug: "cobra",
+    nombre: "Cobra",
+    linea: "Modelo Patentado",
+    precio: 300000, // PRUEBA Mercado Pago ($1.00) — cambia al precio real
+    medida: "1 pulgada",
+    material: S705,
+    descripcion: "De curva pronunciada y ataque envolvente, golpea como el reptil que le da nombre. Forjada a mano en acero S705, templada para un filo agresivo y duradero.",
+    imagen: "/fotos/navaja-cobra.jpg",
+    patentado: true,
+    tiempoProduccion: TIEMPO_PRODUCCION,
+  },
+  {
+    slug: "destripadora",
+    nombre: "Destripadora",
+    linea: "Línea Clásica",
+    precio: 230000,
+    medida: "1 pulgada con 1 hasta 5 líneas",
+    material: M35,
+    descripcion: "De filo profundo y agresivo, concebida para el desgarre certero. Forjada y templada a mano para sostener el corte pelea tras pelea.",
+    imagen: "/fotos/navaja-destripadora.jpg",
+    tiempoProduccion: TIEMPO_PRODUCCION,
+  },
+  {
+    slug: "bayoneta",
+    nombre: "Bayoneta",
+    linea: "Línea Clásica",
+    precio: 230000,
+    medida: "1 pulgada con 1 hasta 5 líneas",
+    material: M35,
+    descripcion: "De perfil recto y firme, privilegia la entrada directa y la penetración certera. Forjada a mano y templada para conservar el filo.",
+    imagen: "/fotos/navaja-bayoneta.jpg",
+    tiempoProduccion: TIEMPO_PRODUCCION,
+  },
+  {
+    slug: "cola-de-rata",
+    nombre: "Cola de Rata",
+    linea: "Línea Heritage",
+    precio: 230000,
+    medida: "1 pulgada con 1 hasta 5 líneas",
+    material: M35,
+    descripcion: "Afinada hacia la punta, concentra la fuerza en un extremo fino y penetrante. Acero trabajado a mano con temple controlado para máxima resistencia.",
+    imagen: "/fotos/navaja-cola-de-rata.jpg",
+    tiempoProduccion: TIEMPO_PRODUCCION,
+  },
+  {
+    slug: "especial-jalon",
+    nombre: "Especial Jalón",
+    linea: "Línea Heritage",
+    precio: 230000,
+    medida: "1 pulgada con 1 hasta 5 líneas",
+    material: M35,
+    descripcion: "Diseñada para el corte de jalón: su perfil acompaña el movimiento natural del gallo para un tajo limpio y profundo. Forjada y afilada a mano, pieza por pieza.",
+    imagen: "/fotos/navaja-especial-jalon.jpg",
+    tiempoProduccion: TIEMPO_PRODUCCION,
+  },
+  {
+    slug: "especial-calleros",
+    nombre: "Especial Calleros",
+    linea: "Línea Heritage",
+    precio: 230000,
+    medida: "1 pulgada con 1 hasta 5 líneas",
+    material: M35,
+    descripcion: "El modelo insignia: la síntesis de setenta años de oficio en una sola navaja. Balance y temple que han ganado peleas por generaciones.",
+    imagen: "/fotos/navaja-especial-calleros.jpg",
+    tiempoProduccion: TIEMPO_PRODUCCION,
+  },
+  {
+    slug: "guadana",
+    nombre: "Guadaña",
+    linea: "Línea Maestra",
+    precio: 230000,
+    medida: "1 pulgada con 1 hasta 5 líneas",
+    material: M35,
+    descripcion: "Inspirada en la hoz: su curva amplia ejecuta un corte de barrido, largo y limpio. Acero trabajado a mano con temple preciso para un filo que perdura.",
+    imagen: "/fotos/navaja-guadana.jpg",
+    tiempoProduccion: TIEMPO_PRODUCCION,
+  },
+  {
+    slug: "m35",
+    nombre: "M35",
+    linea: "Línea Maestra",
+    precio: 230000,
+    medida: "1 pulgada con 1 hasta 5 líneas",
+    material: M35,
+    descripcion: "Forjada en acero M35 de alta velocidad, reconocido por su dureza y retención de filo excepcionales. Tratamiento térmico de precisión y acabado a mano.",
+    imagen: "/fotos/navaja-m35.jpg",
+    tiempoProduccion: TIEMPO_PRODUCCION,
+  },
+  {
+    slug: "media-luna",
+    nombre: "Media Luna",
+    linea: "Línea Maestra",
+    precio: 230000,
+    medida: "1 pulgada con 1 hasta 5 líneas",
+    material: M35,
+    descripcion: "De curva equilibrada, une alcance y control en un solo perfil. Forjada pieza por pieza y templada para mantener el filo.",
+    imagen: "/fotos/navaja-media-luna.jpg",
+    tiempoProduccion: TIEMPO_PRODUCCION,
+  },
+  {
+    slug: "taconuda",
+    nombre: "Taconuda",
+    linea: "Línea Maestra",
+    precio: 230000,
+    medida: "1 pulgada con 1 hasta 5 líneas",
+    material: M35,
+    descripcion: "Su tacón reforzado le da cuerpo y equilibrio en la base, para un montaje firme y un golpe con respaldo. Hecha a mano con el cuidado de tres generaciones.",
+    imagen: "/fotos/navaja-taconuda.jpg",
+    tiempoProduccion: TIEMPO_PRODUCCION,
+  },
+];
+
+export function buscarProducto(slug: string): Producto | undefined {
+  return productos.find((p) => p.slug === slug);
+}
