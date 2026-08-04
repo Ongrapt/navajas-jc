@@ -126,6 +126,20 @@ export default function CheckoutPage() {
             cantidad: i.cantidad,
             medida: i.medida,
           })),
+          ...(direccionCP
+            ? {
+                comprador: {
+                  nombre,
+                  telefono,
+                  email,
+                  calle,
+                  cp,
+                  colonia,
+                  estado: direccionCP.estado,
+                  municipio: direccionCP.municipio,
+                },
+              }
+            : {}),
           ...(envioSeleccionado && direccionCP
             ? {
                 envio: {

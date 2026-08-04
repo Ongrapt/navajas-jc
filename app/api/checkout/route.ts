@@ -15,6 +15,52 @@ type EnvioEntrada = {
   colonia: string;
   servicioCodigo: string;
 };
+type CompradorEntrada = {
+  nombre: string;
+  telefono: string;
+  email: string;
+  calle: string;
+  cp: string;
+  colonia: string;
+  estado: string;
+  municipio: string;
+};
+
+// Arma payer.address y shipments.receiver_address con los datos del
+// formulario, en la forma exacta que espera el SDK de Mercado Pago.
+function construirPayerYEnvio(c: CompradorEntrada) {
+  const partesNombre = c.nombre.trim().split(/\s+/).filter(Boolean);
+  const calleConColonia = c.colonia ? `${c.calle}, ${c.colonia}` : c.calle;
+
+  const payer: {
+    name?: string;
+    surname?: string;
+    email?: string;
+    phone?: { number?: string };
+    address?: { zip_code?: string; street_name?: string };
+  } = {
+    name: partesNombre[0],
+    email: c.email,
+    address: {
+      zip_code: c.cp,
+      street_name: calleConColonia,
+    },
+  };
+  if (partesNombre.length > 1) payer.surname = partesNombre.slice(1).join(" ");
+  if (c.telefono) payer.phone = { number: c.telefono };
+
+  const shipments = {
+    receiver_address: {
+      zip_code: c.cp,
+      street_name: calleConColonia,
+      city_name: c.municipio,
+      state_name: c.estado,
+      country_name: "México",
+    },
+  };
+
+  return { payer, shipments };
+}
 
 export async function POST(req: NextRequest) {
   const token = process.env.MP_ACCESS_TOKEN;
@@ -25,7 +71,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  let body: { items?: ItemEntrada[]; envio?: EnvioEntrada };
+  let body: { items?: ItemEntrada[]; envio?: EnvioEntrada; comprador?: CompradorEntrada };
   try {
     body = await req.json();
   } catch {
@@ -103,6 +149,29 @@ export async function POST(req: NextRequest) {
     });
   }
 
+  // Datos del comprador (nombre, teléfono, correo y dirección) del formulario
+  // de checkout — se mandan a Mercado Pago en payer.address y
+  // shipments.receiver_address para que la dirección quede registrada con el
+  // pedido, no solo el correo.
+  let payer: ReturnType<typeof construirPayerYEnvio>["payer"] | undefined;
+  let shipments: ReturnType<typeof construirPayerYEnvio>["shipments"] | undefined;
+  if (body.comprador) {
+    const { nombre, telefono, email, calle, cp, colonia, estado, municipio } = body.comprador;
+    if (!nombre || !email || !calle || !cp || !colonia || !estado || !municipio) {
+      return NextResponse.json({ error: "Faltan datos del comprador." }, { status: 400 });
+    }
+    ({ payer, shipments } = construirPayerYEnvio({
+      nombre,
+      telefono,
+      email,
+      calle,
+      cp,
+      colonia,
+      estado,
+      municipio,
+    }));
+  }
+
   const site = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
   // Mercado Pago exige https en back_urls.success para poder usar auto_return.
   // En desarrollo local (http://localhost) lo omitimos para no romper la preferencia.
@@ -114,6 +183,8 @@ export async function POST(req: NextRequest) {
     const result = await preference.create({
       body: {
         items,
+        ...(payer ? { payer } : {}),
+        ...(shipments ? { shipments } : {}),
         back_urls: {
           success: `${site}/gracias`,
           pending: `${site}/pago-pendiente`,

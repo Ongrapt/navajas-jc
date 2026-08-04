@@ -20,6 +20,7 @@ export type Producto = {
   imagen?: string;
   patentado?: boolean;  // pieza destacada / exclusiva
   tiempoProduccion: string;
+  oculto?: boolean;     // no aparece en el catálogo público, pero sí es comprable por su slug
 };
 
 const M35 = "Acero M35, forjado y afilado a mano";
@@ -144,7 +145,23 @@ export const productos: Producto[] = [
     imagen: "/fotos/navaja-taconuda.jpg",
     tiempoProduccion: TIEMPO_PRODUCCION,
   },
+  {
+    slug: "prueba",
+    nombre: "PRODUCTO DE PRUEBA - NO COMPRAR",
+    linea: "Prueba interna",
+    precio: 100, // $1.00 MXN — para probar el flujo completo sin gastar de más
+    medida: "N/A (producto de prueba)",
+    material: "N/A — no es una navaja real",
+    descripcion:
+      "Producto interno para verificar el flujo completo de compra (carrito, checkout, dirección y pago con Mercado Pago) sin usar navajas reales. No aparece en el catálogo público.",
+    tiempoProduccion: "No aplica — producto de prueba.",
+    oculto: true,
+  },
 ];
+
+// Lo que se muestra en el catálogo público: excluye productos ocultos
+// (como el producto de prueba) aunque sí sigan siendo comprables por su slug.
+export const productosVisibles = productos.filter((p) => !p.oculto);
 
 export function buscarProducto(slug: string): Producto | undefined {
   return productos.find((p) => p.slug === slug);

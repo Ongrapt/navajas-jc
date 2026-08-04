@@ -1,10 +1,10 @@
-import { productos } from "@/lib/productos";
+import { productosVisibles } from "@/lib/productos";
 import { ProductoCard } from "./ProductoCard";
 import { NavajaDestacada } from "./NavajaDestacada";
 
 export function Catalogo() {
-  const destacadas = productos.filter((p) => p.patentado);
-  const resto = productos.filter((p) => !p.patentado);
+  const destacadas = productosVisibles.filter((p) => p.patentado);
+  const resto = productosVisibles.filter((p) => !p.patentado);
 
   return (
     <section id="catalogo" className="mx-auto max-w-6xl px-5 py-20">
@@ -26,7 +26,7 @@ export function Catalogo() {
           </h2>
         </div>
         <span className="hidden text-xs uppercase tracking-[0.2em] text-bone-dim sm:block">
-          {productos.length} modelos
+          {productosVisibles.length} modelos
         </span>
       </div>
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
