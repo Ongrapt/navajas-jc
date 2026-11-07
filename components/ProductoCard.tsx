@@ -53,6 +53,9 @@ export function ProductoCard({ producto }: { producto: Producto }) {
 
         <div className="mt-4 flex items-center justify-between">
           <div className="flex flex-col">
+            {producto.precioAnterior && (
+              <span className="text-xs text-bone-dim line-through">De {precioMXN(producto.precioAnterior)}</span>
+            )}
             <span className="font-display text-lg text-bone">{precioMXN(producto.precio)}</span>
             <span className="text-[10px] uppercase tracking-wide text-bone-dim">/ docena (12 piezas)</span>
           </div>

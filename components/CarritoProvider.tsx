@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState, useCallback } from "react";
-import type { Producto } from "@/lib/productos";
+import { buscarProducto, type Producto } from "@/lib/productos";
 
 export type ItemCarrito = { producto: Producto; medida: string; cantidad: number };
 
@@ -41,7 +41,15 @@ export function CarritoProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     try {
       const guardado = localStorage.getItem(CLAVE);
-      if (guardado) setItems(JSON.parse(guardado).filter(esItemValido));
+      // Se refresca el producto desde el catálogo para que el precio guardado
+      // no quede viejo (ej. un carrito armado durante una promo ya terminada).
+      if (guardado)
+        setItems(
+          (JSON.parse(guardado) as unknown[]).filter(esItemValido).flatMap((i) => {
+            const actual = buscarProducto(i.producto.slug);
+            return actual ? [{ ...i, producto: actual }] : [];
+          })
+        );
     } catch {}
   }, []);
 

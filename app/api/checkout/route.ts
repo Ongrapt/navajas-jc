@@ -1,3 +1,4 @@
+import { randomBytes } from "crypto";
 import { NextRequest, NextResponse } from "next/server";
 import { MercadoPagoConfig, Preference } from "mercadopago";
 import { buscarProducto, MEDIDAS_DISPONIBLES } from "@/lib/productos";
@@ -177,6 +178,12 @@ export async function POST(req: NextRequest) {
   // En desarrollo local (http://localhost) lo omitimos para no romper la preferencia.
   const esHttps = site.startsWith("https://");
 
+  // Número de pedido único (external_reference). Mercado Pago lo devuelve en
+  // cada pago y en cada notificación, así se puede relacionar el payment_id
+  // con el pedido. Formato: NJC-AAAAMMDD-XXXXXXXX
+  const hoy = new Date().toISOString().slice(0, 10).replace(/-/g, "");
+  const externalReference = `NJC-${hoy}-${randomBytes(4).toString("hex").toUpperCase()}`;
+
   try {
     const client = new MercadoPagoConfig({ accessToken: token });
     const preference = new Preference(client);
@@ -192,10 +199,14 @@ export async function POST(req: NextRequest) {
         },
         ...(esHttps ? { auto_return: "approved" as const } : {}),
         statement_descriptor: "NAVAJAS JC",
+        external_reference: externalReference,
+        // Webhooks: Mercado Pago avisa aquí cada cambio de estado del pago.
+        // Solo con https (Mercado Pago no puede llamar a localhost).
+        ...(esHttps ? { notification_url: `${site}/api/webhooks/mercadopago?source_news=webhooks` } : {}),
       },
     });
 
-    return NextResponse.json({ init_point: result.init_point });
+    return NextResponse.json({ init_point: result.init_point, pedido: externalReference });
   } catch (e) {
     console.error("Error creando preferencia MP:", e);
     return NextResponse.json(

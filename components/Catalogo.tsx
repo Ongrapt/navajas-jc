@@ -1,8 +1,9 @@
-import { productosVisibles } from "@/lib/productos";
+import { obtenerProductosVisibles } from "@/lib/productos";
 import { ProductoCard } from "./ProductoCard";
 import { NavajaDestacada } from "./NavajaDestacada";
 
 export function Catalogo() {
+  const productosVisibles = obtenerProductosVisibles();
   const destacadas = productosVisibles.filter((p) => p.patentado);
   const resto = productosVisibles.filter((p) => !p.patentado);
 

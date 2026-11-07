@@ -59,6 +59,9 @@ export function NavajaDestacada({ producto }: { producto: Producto }) {
 
           <div className="mt-6 flex flex-wrap items-center gap-6">
             <div className="flex flex-col">
+              {producto.precioAnterior && (
+                <span className="text-sm text-bone-dim line-through">De {precioMXN(producto.precioAnterior)}</span>
+              )}
               <span className="font-display text-2xl text-bone">{precioMXN(producto.precio)}</span>
               <span className="text-[10px] uppercase tracking-wide text-bone-dim">/ docena (12 piezas)</span>
             </div>
