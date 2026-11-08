@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { MEDIDAS_DISPONIBLES, type Producto } from "@/lib/productos";
 import { precioMXN } from "@/lib/formato";
 import { useCarrito } from "./CarritoProvider";
@@ -9,9 +9,16 @@ import { MarcadorFilo } from "./MarcadorFilo";
 export function ProductoCard({ producto }: { producto: Producto }) {
   const { agregar } = useCarrito();
   const [medida, setMedida] = useState("");
+  const [aviso, setAviso] = useState(false); // se intentó agregar sin medida
+  const selectRef = useRef<HTMLSelectElement>(null);
 
   function manejarAgregar() {
-    if (!medida) return;
+    if (!medida) {
+      // En vez de bloquear el botón, avisamos y llevamos al selector.
+      setAviso(true);
+      selectRef.current?.focus();
+      return;
+    }
     agregar(producto, medida);
   }
 
@@ -38,8 +45,14 @@ export function ProductoCard({ producto }: { producto: Producto }) {
           </label>
           <select
             value={medida}
-            onChange={(e) => setMedida(e.target.value)}
-            className="w-full border border-steel-line bg-steel-base px-3 py-2 text-sm text-bone focus:border-brass focus:outline-none"
+            ref={selectRef}
+            onChange={(e) => {
+              setMedida(e.target.value);
+              setAviso(false);
+            }}
+            className={`w-full border bg-steel-base px-3 py-2 text-sm text-bone focus:outline-none ${
+              aviso && !medida ? "border-red-400" : "border-steel-line focus:border-brass"
+            }`}
           >
             <option value="">Selecciona una medida</option>
             {MEDIDAS_DISPONIBLES.map((m) => (
@@ -48,7 +61,11 @@ export function ProductoCard({ producto }: { producto: Producto }) {
               </option>
             ))}
           </select>
-          {!medida && <p className="mt-1 text-[11px] text-bone-dim">Selecciona una medida para agregar.</p>}
+          {!medida && (
+            <p className={`mt-1 text-[11px] ${aviso ? "font-semibold text-red-400" : "text-bone-dim"}`} role={aviso ? "alert" : undefined}>
+              Selecciona una medida para continuar.
+            </p>
+          )}
         </div>
 
         <div className="mt-4 flex items-center justify-between">
@@ -61,7 +78,6 @@ export function ProductoCard({ producto }: { producto: Producto }) {
           </div>
           <button
             onClick={manejarAgregar}
-            disabled={!medida}
             className="rounded-sm border border-brass px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-brass transition hover:bg-brass hover:text-steel-base disabled:cursor-not-allowed disabled:border-steel-line disabled:text-bone-dim disabled:hover:bg-transparent"
           >
             Agregar
