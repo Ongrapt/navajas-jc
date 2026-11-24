@@ -1,6 +1,5 @@
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
-import { PromoBuenFin } from "@/components/PromoBuenFin";
 import { Catalogo } from "@/components/Catalogo";
 import { Herencia } from "@/components/Herencia";
 import { ComoComprar } from "@/components/ComoComprar";
@@ -19,7 +18,6 @@ export default function Home() {
       <Header />
       <main>
         <Hero />
-        <PromoBuenFin />
         <Catalogo />
         <Herencia />
         <ComoComprar />
