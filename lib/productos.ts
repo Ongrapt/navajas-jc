@@ -53,7 +53,6 @@ export const productos: Producto[] = [
     nombre: "Destripadora",
     linea: "Línea Clásica",
     precio: 230000,
-    precioPromo: 184000, // Buen Fin -20%
     medida: "1 pulgada con 1 hasta 5 líneas",
     material: M35,
     descripcion: "De filo profundo y agresivo, concebida para el desgarre certero. Forjada y templada a mano para sostener el corte pelea tras pelea.",
@@ -65,7 +64,6 @@ export const productos: Producto[] = [
     nombre: "Bayoneta",
     linea: "Línea Clásica",
     precio: 230000,
-    precioPromo: 184000, // Buen Fin -20%
     medida: "1 pulgada con 1 hasta 5 líneas",
     material: M35,
     descripcion: "De perfil recto y firme, privilegia la entrada directa y la penetración certera. Forjada a mano y templada para conservar el filo.",
@@ -77,7 +75,6 @@ export const productos: Producto[] = [
     nombre: "Cola de Rata",
     linea: "Línea Heritage",
     precio: 230000,
-    precioPromo: 184000, // Buen Fin -20%
     medida: "1 pulgada con 1 hasta 5 líneas",
     material: M35,
     descripcion: "Afinada hacia la punta, concentra la fuerza en un extremo fino y penetrante. Acero trabajado a mano con temple controlado para máxima resistencia.",
@@ -89,7 +86,6 @@ export const productos: Producto[] = [
     nombre: "Especial Jalón",
     linea: "Línea Heritage",
     precio: 230000,
-    precioPromo: 184000, // Buen Fin -20%
     medida: "1 pulgada con 1 hasta 5 líneas",
     material: M35,
     descripcion: "Diseñada para el corte de jalón: su perfil acompaña el movimiento natural del gallo para un tajo limpio y profundo. Forjada y afilada a mano, pieza por pieza.",
@@ -101,7 +97,6 @@ export const productos: Producto[] = [
     nombre: "Especial Calleros",
     linea: "Línea Heritage",
     precio: 230000,
-    precioPromo: 184000, // Buen Fin -20%
     medida: "1 pulgada con 1 hasta 5 líneas",
     material: M35,
     descripcion: "El modelo insignia: la síntesis de setenta años de oficio en una sola navaja. Balance y temple que han ganado peleas por generaciones.",
@@ -113,7 +108,6 @@ export const productos: Producto[] = [
     nombre: "Guadaña",
     linea: "Línea Maestra",
     precio: 230000,
-    precioPromo: 184000, // Buen Fin -20%
     medida: "1 pulgada con 1 hasta 5 líneas",
     material: M35,
     descripcion: "Inspirada en la hoz: su curva amplia ejecuta un corte de barrido, largo y limpio. Acero trabajado a mano con temple preciso para un filo que perdura.",
@@ -125,7 +119,6 @@ export const productos: Producto[] = [
     nombre: "M35",
     linea: "Línea Maestra",
     precio: 230000,
-    precioPromo: 184000, // Buen Fin -20%
     medida: "1 pulgada con 1 hasta 5 líneas",
     material: M35,
     descripcion: "Forjada en acero M35 de alta velocidad, reconocido por su dureza y retención de filo excepcionales. Tratamiento térmico de precisión y acabado a mano.",
@@ -137,7 +130,6 @@ export const productos: Producto[] = [
     nombre: "Media Luna",
     linea: "Línea Maestra",
     precio: 230000,
-    precioPromo: 184000, // Buen Fin -20%
     medida: "1 pulgada con 1 hasta 5 líneas",
     material: M35,
     descripcion: "De curva equilibrada, une alcance y control en un solo perfil. Forjada pieza por pieza y templada para mantener el filo.",
@@ -149,7 +141,6 @@ export const productos: Producto[] = [
     nombre: "Taconuda",
     linea: "Línea Maestra",
     precio: 230000,
-    precioPromo: 184000, // Buen Fin -20%
     medida: "1 pulgada con 1 hasta 5 líneas",
     material: M35,
     descripcion: "Su tacón reforzado le da cuerpo y equilibrio en la base, para un montaje firme y un golpe con respaldo. Hecha a mano con el cuidado de tres generaciones.",
@@ -171,11 +162,9 @@ export const productos: Producto[] = [
 ];
 
 // ─────────────────────────────────────────────────────────────
-// PROMOCIÓN BUEN FIN — 20% de descuento ($2,300 → $1,840 la docena).
-// Termina sola al final del 16 de noviembre de 2026, hora del centro de
-// México (UTC-6). Después de esa fecha todos los productos regresan a su
-// `precio` normal sin tocar nada. Para otra promo: cambia `precioPromo` en
-// cada producto y la fecha de FIN_PROMO.
+// PROMOCIONES — hoy no hay ninguna activa; todos los productos se venden a
+// su `precio` normal. Para lanzar una promo: pon `precioPromo` en los
+// productos que apliquen y cambia FIN_PROMO a la fecha en que termina.
 // ─────────────────────────────────────────────────────────────
 export const FIN_PROMO = new Date("2026-11-17T00:00:00-06:00");
 
